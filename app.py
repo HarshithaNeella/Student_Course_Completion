@@ -30,17 +30,6 @@ def set_bg_image(img_path):
 
 # CALL background function
 set_bg_image(r"Stdunt img2.jpg")
-
-
-
-
-
-
-
-
-
-
-
 st.title("Students Course Complete Prediction")
 
 fee=st.selectbox("Fee_Paid",["Yes","No"])
@@ -50,24 +39,39 @@ quiz=int(st.number_input("Quiz_Score_Avg",value=0.00))
 payment=int(st.number_input("Payment_Amount",value=0))
 
 if st.button("Completed (Yes/No)"):
-    input_df=pd.DataFrame([{
-        "Fee_Paid":fee,
-        "Time_Spent_Hours":time_spent,
-        "Video_Completion_Rate":video,
-        "Quiz_Score_Avg":quiz,
-        "Payment_Amount":payment
+    if fee == "No" and payment == 0:
+        st.markdown(
+            "<h2 style='color:#8B0000; background:#FFCCCC; padding:12px; border-radius:10px;'>"
+            "Prediction: NOT Completed</h2>",
+            unsafe_allow_html=True
+        )
 
-    }])
+    else:
+        # MODEL PREDICTION
+        input_df = pd.DataFrame([{
+            "Fee_Paid": fee,
+            "Time_Spent_Hours": time_spent,
+            "Video_Completion_Rate": video,
+            "Quiz_Score_Avg": quiz,
+            "Payment_Amount": payment
+        }])
 
-    result =best_dt.predict(input_df)[0]
+        result = best_dt.predict(input_df)[0]
 
-   # st.success(f"Did student completed the course: {result:}")
-    # brighten the colour of predicted output
+        if result in [1, "Yes", "Completed"]:
+            st.markdown(
+                "<h2 style='color:#006400; background:#90EE90; padding:12px; border-radius:10px;'>"
+                "Prediction: Completed</h2>",
+                unsafe_allow_html=True
+            )
+        else:
+            st.markdown(
+                "<h2 style='color:#8B0000; background:#FFCCCC; padding:12px; border-radius:10px;'>"
+                "Prediction: NOT Completed</h2>",
+                unsafe_allow_html=True
+            )
 
-st.markdown(
-    "<h2 style='color:#006400; background:#90EE90; padding:10px; border-radius:10px;'>"
-    "Prediction: Completed</h2>",
-    unsafe_allow_html=True
-)
+   
+    
 
 
