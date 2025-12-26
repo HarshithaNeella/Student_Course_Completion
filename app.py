@@ -29,7 +29,7 @@ def set_bg_image(img_path):
     )
 
 # CALL background function
-set_bg_image(r"asstes\Stdunt img2.jpg")
+set_bg_image(r"Stdunt img2.jpg")
 
 
 
@@ -69,4 +69,5 @@ st.markdown(
     "Prediction: Completed</h2>",
     unsafe_allow_html=True
 )
+
 
