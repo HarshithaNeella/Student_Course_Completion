@@ -30,6 +30,7 @@ def set_bg_image(img_path):
 
 # CALL background function
 set_bg_image(r"Stdunt img2.jpg")
+
 st.title("Students Course Complete Prediction")
 
 fee=st.selectbox("Fee_Paid",["Yes","No"])
@@ -38,8 +39,19 @@ video=int(st.number_input("Video_Completion_Rate",value=0.00))
 quiz=int(st.number_input("Quiz_Score_Avg",value=0.00))
 payment=int(st.number_input("Payment_Amount",value=0))
 
+
 if st.button("Completed (Yes/No)"):
-    if fee == "No" and payment == 0:
+
+    # RULE 1: Fee not paid
+    if fee == "No" or payment == 0:
+        st.markdown(
+            "<h2 style='color:#8B0000; background:#FFCCCC; padding:12px; border-radius:10px;'>"
+            "Prediction: NOT Completed</h2>",
+            unsafe_allow_html=True
+        )
+
+    # RULE 2: Engagement thresholds
+    elif video < 70 or quiz < 70:
         st.markdown(
             "<h2 style='color:#8B0000; background:#FFCCCC; padding:12px; border-radius:10px;'>"
             "Prediction: NOT Completed</h2>",
@@ -47,7 +59,7 @@ if st.button("Completed (Yes/No)"):
         )
 
     else:
-        # MODEL PREDICTION
+        # ML MODEL PREDICTION (only if rules pass)
         input_df = pd.DataFrame([{
             "Fee_Paid": fee,
             "Time_Spent_Hours": time_spent,
@@ -71,7 +83,7 @@ if st.button("Completed (Yes/No)"):
                 unsafe_allow_html=True
             )
 
-   
     
+
 
 
